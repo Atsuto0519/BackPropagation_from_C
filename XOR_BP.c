@@ -46,7 +46,7 @@ int main(void)
   int seed;
   FILE *fp;
 
-  fp = fopen("error.dat", "w");
+  fp = fopen("xor_error.dat", "w");
   if (fp==NULL) {
     printf("can't open file.\n");
     exit(1);
@@ -54,7 +54,7 @@ int main(void)
 
   //seed = (unsigned int)time(NULL);
   //printf("seed = %d\n", seed);
-  seed = 0;
+  seed = 5;
   srand(seed);
 
   wbd = randNum();
@@ -68,7 +68,7 @@ int main(void)
   offa = randNum();
 
   for(times=0;times<TIMES; times++) {
-    
+
     errorSum = 0.0;
 
     for(r=0; r<4; r++) {
@@ -80,7 +80,7 @@ int main(void)
       /* Input layer output */
       outd = data[r][0];
       oute = data[r][1];
-      
+
       /* Hidden layer output */
       xb = wbd*outd + wbe*oute + offb;
       outb = sigmoid(xb);
@@ -108,20 +108,20 @@ int main(void)
        *
        * deltaa = ...
        * wab = wab + ...
-       * 
+       *
        */
-      
+
       /* ----------------------------- */
       /* Output layer to hidden layer  */
-      /* ----------------------------- */      
+      /* ----------------------------- */
       deltaa = (outa-data[r][2])*(EPSILON*(1.0-outa)*outa);
       wab = wab - ETA*deltaa*outb;
       wac = wac - ETA*deltaa*outc;
       offa = offa - ETA*deltaa*1.0;
-      
+
       /* ----------------------------- */
       /* Hidden layer to hidden layer  */
-      /* ----------------------------- */      
+      /* ----------------------------- */
       deltab = deltaa*wab*(EPSILON*(1.0-outb)*outb);
       wbd = wbd - ETA*deltab*outd;
       wbe = wbe - ETA*deltab*oute;
